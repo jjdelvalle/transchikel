@@ -20,6 +20,7 @@ def main():
         with open(join(DATA_PATH, grid_file), 'r', encoding='cp1252') as f:
             audio_fname = join(DATA_PATH, grid_file[:grid_file.index('.')] + '.wav')
             audio_file = AudioSegment.from_wav(audio_fname)
+            audio_file = audio_file.set_frame_rate(16000).set_channels(1)
             init_t = 0
             end_t = 0
             text = ""
@@ -37,11 +38,11 @@ def main():
                     temp_audio = temp_audio.export("../data/processed/" + filename, format="wav")
                     file_dict.append({'file': "../data/processed/" + filename, 'text': text})
 
-    
+
     df = pd.DataFrame(file_dict, columns=['file', 'text'])
     df['text'] = df['text'].str.strip(', "')
     print(df)
-    df.to_csv("..data/processed/kaqchikel_dataset.csv")
+    df.to_csv("../data/processed/kaqchikel_dataset.csv")
 
 if __name__ == '__main__':
     main()
